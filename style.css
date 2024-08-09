@@ -131,3 +131,55 @@ button:hover {
   margin-top: 10px;
   border-radius: 5px;
 }
+
+
+
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --header-color: #4a4a4a;
+  --button-color: #007bff;
+  --button-text-color: #ffffff;
+  --email-item-color: #ffffff;
+  --email-subject-color: #007bff;
+  --modal-background-color: rgba(0, 0, 0, 0.5);
+  --modal-content-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3 {
+  color: var(--header-color);
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--button-text-color);
+}
+
+.email-item {
+  background-color: var(--email-item-color);
+}
+
+.email-subject {
+  color: var(--email-subject-color);
+}
+
+#replyModal {
+  background-color: var(--modal-background-color);
+}
+
+.modal-content {
+  background-color: var(--modal-content-color);
+}
+
+#themeSelector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
