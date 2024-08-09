@@ -6,6 +6,7 @@ let categoryStats = {
     Collaboration: 0,
     "Fan Art": 0
 };
+let currentReplyEmail = null;
 
 function submitName() {
     const name = document.getElementById('nameInput').value.trim();
@@ -58,7 +59,11 @@ function addEmailToList(subject, content, category) {
     emailItem.dataset.category = category;
     emailItem.innerHTML = `
         <div class="email-subject">${subject}</div>
-        <div class="email-content">${content}</div>
+        <div class="email-content">
+            ${content}
+            <button onclick="openReplyModal(this.parentNode.parentNode)">Reply</button>
+            <div class="reply-content" style="display:none;"></div>
+        </div>
     `;
     emailItem.addEventListener('click', function() {
         this.classList.toggle('open');
@@ -91,5 +96,28 @@ function updateStats() {
     statsDiv.innerHTML = '<h3>Email Statistics</h3>';
     for (const [category, count] of Object.entries(categoryStats)) {
         statsDiv.innerHTML += `<p>${category}: ${count}</p>`;
+    }
+}
+
+function openReplyModal(emailItem) {
+    currentReplyEmail = emailItem;
+    document.getElementById('replyModal').style.display = 'block';
+}
+
+function closeReplyModal() {
+    document.getElementById('replyModal').style.display = 'none';
+    document.getElementById('replyText').value = '';
+    currentReplyEmail = null;
+}
+
+function sendReply() {
+    const replyText = document.getElementById('replyText').value.trim();
+    if (replyText && currentReplyEmail) {
+        const replyContent = currentReplyEmail.querySelector('.reply-content');
+        replyContent.innerHTML = `<strong>Your reply:</strong><br>${replyText}`;
+        replyContent.style.display = 'block';
+        closeReplyModal();
+    } else {
+        alert('Please enter a reply before sending.');
     }
 }
