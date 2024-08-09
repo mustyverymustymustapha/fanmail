@@ -40,3 +40,55 @@ body {
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   max-width: 600px;
+  width: 100%;
+  margin-top: 60px;
+}
+h1 {
+  color: #4a4a4a;
+  margin-bottom: 30px;
+}
+input, button, select {
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+button {
+  background-color: #FF6B6B;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #FF8E8E;
+}
+#emailList {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+.email-item {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.email-subject {
+  padding: 15px;
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+.email-content {
+  padding: 20px;
+  display: none;
+  line-height: 1.6;
+}
+.email-item.open .email-content {
+  display: block;
+}
+#userName {
+  font-weight: bold;
+  font-size: 18px;
+}
