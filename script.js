@@ -1,4 +1,11 @@
 let emailCount = 0;
+const categories = ["Praise", "Question", "Collaboration", "Fan Art"];
+let categoryStats = {
+    Praise: 0,
+    Question: 0,
+    Collaboration: 0,
+    "Fan Art": 0
+};
 
 function submitName() {
     const name = document.getElementById('nameInput').value.trim();
@@ -6,6 +13,7 @@ function submitName() {
         document.getElementById('namePrompt').style.display = 'none';
         document.getElementById('mainContent').style.display = 'flex';
         document.getElementById('userName').textContent = name;
+        updateCategoryFilter();
     } else {
         alert('Please enter your name.');
     }
@@ -29,20 +37,25 @@ function generateFanMail() {
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
     const compliment = compliments[Math.floor(Math.random() * compliments.length)];
     const closing = closings[Math.floor(Math.random() * closings.length)];
+    const category = categories[Math.floor(Math.random() * categories.length)];
 
-    const subject = `Fan Mail #${++emailCount}`;
+    categoryStats[category]++;
+
+    const subject = `Fan Mail #${++emailCount} [${category}]`;
     const content = `${greeting} ${adjective} ${noun},<br><br>
                      ${compliment}<br><br>
                      ${closing},<br>
                      Your biggest fan`;
 
-    addEmailToList(subject, content);
+    addEmailToList(subject, content, category);
+    updateStats();
 }
 
-function addEmailToList(subject, content) {
+function addEmailToList(subject, content, category) {
     const emailList = document.getElementById('emailList');
     const emailItem = document.createElement('div');
     emailItem.className = 'email-item';
+    emailItem.dataset.category = category;
     emailItem.innerHTML = `
         <div class="email-subject">${subject}</div>
         <div class="email-content">${content}</div>
@@ -51,4 +64,32 @@ function addEmailToList(subject, content) {
         this.classList.toggle('open');
     });
     emailList.prepend(emailItem);
+}
+
+function updateCategoryFilter() {
+    const filter = document.getElementById('categoryFilter');
+    filter.innerHTML = '<option value="All">All Categories</option>';
+    categories.forEach(category => {
+        filter.innerHTML += `<option value="${category}">${category}</option>`;
+    });
+}
+
+function filterEmails() {
+    const category = document.getElementById('categoryFilter').value;
+    const emails = document.querySelectorAll('.email-item');
+    emails.forEach(email => {
+        if (category === 'All' || email.dataset.category === category) {
+            email.style.display = 'block';
+        } else {
+            email.style.display = 'none';
+        }
+    });
+}
+
+function updateStats() {
+    const statsDiv = document.getElementById('emailStats');
+    statsDiv.innerHTML = '<h3>Email Statistics</h3>';
+    for (const [category, count] of Object.entries(categoryStats)) {
+        statsDiv.innerHTML += `<p>${category}: ${count}</p>`;
+    }
 }
