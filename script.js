@@ -1,3 +1,72 @@
+const themes = {
+    default: {
+        background: '#f0f0f0',
+        text: '#333',
+        header: '#4a4a4a',
+        button: '#007bff',
+        buttonText: '#ffffff',
+        emailItem: '#ffffff',
+        emailSubject: '#007bff',
+        modalBackground: 'rgba(0, 0, 0, 0.5)',
+        modalContent: '#ffffff'
+    },
+    dark: {
+        background: '#2c3e50',
+        text: '#ecf0f1',
+        header: '#34495e',
+        button: '#e74c3c',
+        buttonText: '#ffffff',
+        emailItem: '#34495e',
+        emailSubject: '#e74c3c',
+        modalBackground: 'rgba(0, 0, 0, 0.7)',
+        modalContent: '#2c3e50'
+    },
+    pastel: {
+        background: '#f9e79f',
+        text: '#5d4037',
+        header: '#a1887f',
+        button: '#80cbc4',
+        buttonText: '#ffffff',
+        emailItem: '#fffde7',
+        emailSubject: '#4db6ac',
+        modalBackground: 'rgba(161, 136, 127, 0.5)',
+        modalContent: '#fffde7'
+    }
+};
+
+function createThemeSelector() {
+    const themeSelector = document.createElement('select');
+    themeSelector.id = 'themeSelector';
+    for (const theme in themes) {
+        const option = document.createElement('option');
+        option.value = theme;
+        option.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+        themeSelector.appendChild(option);
+    }
+    themeSelector.addEventListener('change', applyTheme);
+    document.body.insertBefore(themeSelector, document.body.firstChild);
+}
+
+function applyTheme() {
+    const selectedTheme = document.getElementById('themeSelector').value;
+    const theme = themes[selectedTheme];
+
+    document.body.style.setProperty('--background-color', theme.background);
+    document.body.style.setProperty('--text-color', theme.text);
+    document.body.style.setProperty('--header-color', theme.header);
+    document.body.style.setProperty('--button-color', theme.button);
+    document.body.style.setProperty('--button-text-color', theme.buttonText);
+    document.body.style.setProperty('--email-item-color', theme.emailItem);
+    document.body.style.setProperty('--email-subject-color', theme.emailSubject);
+    document.body.style.setProperty('--modal-background-color', theme.modalBackground);
+    document.body.style.setProperty('--modal-content-color', theme.modalContent);
+}
+
+function initThemeSelector() {
+    createThemeSelector();
+    applyTheme();
+}
+
 let emailCount = 0;
 const categories = ["Praise", "Question", "Collaboration", "Fan Art"];
 let categoryStats = {
@@ -157,3 +226,4 @@ function sendReply() {
         alert('Please enter a reply before sending.');
     }
 }
+document.addEventListener('DOMContentLoaded', initThemeSelector);
