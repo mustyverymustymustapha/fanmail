@@ -1,3 +1,4 @@
+let totalMoney = 0;
 const themes = {
     default: {
         background: '#f0f0f0',
@@ -116,6 +117,23 @@ function checkProfanity(text) {
             console.error('Error:', error);
             alert('An error occurred while checking the name. Please try again.');
         });
+} 
+
+function updateMoneyDisplay() {
+    const moneyDisplay = document.getElementById('moneyDisplay');
+    if (!moneyDisplay) {
+        const newMoneyDisplay = document.createElement('div');
+        newMoneyDisplay.id = 'moneyDisplay';
+        newMoneyDisplay.style.position = 'fixed';
+        newMoneyDisplay.style.top = '10px';
+        newMoneyDisplay.style.right = '10px';
+        newMoneyDisplay.style.backgroundColor = '#4CAF50';
+        newMoneyDisplay.style.color = 'white';
+        newMoneyDisplay.style.padding = '10px';
+        newMoneyDisplay.style.borderRadius = '5px';
+        document.body.appendChild(newMoneyDisplay);
+    }
+    document.getElementById('moneyDisplay').textContent = `Total Donations: $${totalMoney.toFixed(2)}`;
 }
 
 function generateFanMail() {
@@ -129,6 +147,8 @@ function generateFanMail() {
         "Your creativity knows no bounds!",
         "You're a true role model!"
     ];
+
+    
     const closings = ["Best wishes", "Yours truly", "Sincerely", "With admiration"];
 
     const greeting = greetings[Math.floor(Math.random() * greetings.length)];
@@ -143,6 +163,11 @@ function generateFanMail() {
                    ${closing},<br>
                    Your biggest fan`;
 
+    
+    addEmailToList(subject, body, donation);
+    updateMoneyDisplay();
+
+
     if (Math.random() < 0.2) {
         const asciiArt = generateAsciiArt(document.getElementById('userName').textContent);
         content = `<pre>${asciiArt}</pre><br>` + content;
@@ -153,26 +178,22 @@ function generateFanMail() {
 
     const subject = `Fan Mail #${++emailCount} [${category}]`;
 
+    const donation = Math.random() < 0.3 ? Math.round(Math.random() * 100 + 1) : 0;
+    totalMoney += donation;
+    
     addEmailToList(subject, content, category);
     updateStats();
 }
 
-function addEmailToList(subject, content, category) {
+function addEmailToList(subject, content, donation) {
     const emailList = document.getElementById('emailList');
     const emailItem = document.createElement('div');
     emailItem.className = 'email-item';
-    emailItem.dataset.category = category;
     emailItem.innerHTML = `
         <div class="email-subject">${subject}</div>
-        <div class="email-content">
-            ${content}
-            <button onclick="openReplyModal(this.parentNode.parentNode)">Reply</button>
-            <div class="reply-content" style="display:none;"></div>
-        </div>
+        <div class="email-content">${content}</div>
+        ${donation > 0 ? `<div class="email-donation">Donation: $${donation.toFixed(2)}</div>` : ''}
     `;
-    emailItem.addEventListener('click', function() {
-        this.classList.toggle('open');
-    });
     emailList.prepend(emailItem);
 }
 
@@ -226,4 +247,7 @@ function sendReply() {
         alert('Please enter a reply before sending.');
     }
 }
+
+updateMoneyDisplay();
+
 document.addEventListener('DOMContentLoaded', initThemeSelector);
