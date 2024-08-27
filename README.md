@@ -1,0 +1,1 @@
+self proclaimed #1 narcissist tool!!!! it was working in my IDE but not on vercel for a strange reason. (will fix in future)![9A829456-FEA0-42EC-8713-CE94A7DFDD33](https://github.com/user-attachments/assets/fd16a6d7-3af7-411a-a112-f2a49332af62)
